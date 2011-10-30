@@ -128,22 +128,22 @@ endif
 
 define PREPROCESS
 	@echo "CPP: $1->$2"
-	@$(CPP) $(CPPFLAGS) $1 -o $2
+	$(CPP) $(CPPFLAGS) $1 -o $2
 endef
 
 define COMPILE
 	@echo "CC: $1"
-	@$(CC) -c $(CFLAGS) $1 -o $2
+	$(CC) -c $(CFLAGS) $1 -o $2
 endef
 
 define COMPILEXX
 	@echo "CXX: $1"
-	@$(CXX) -c $(CXXFLAGS) $1 -o $2
+	$(CXX) -c $(CXXFLAGS) $1 -o $2
 endef
 
 define ASSEMBLE
 	@echo "AS: $1"
-	@$(CC) -c $(AFLAGS) $1 -o $2
+	$(CC) -c $(AFLAGS) $1 -o $2
 endef
 
 define ARCHIVE
