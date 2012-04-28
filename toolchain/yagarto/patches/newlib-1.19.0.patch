@@ -1,0 +1,97 @@
+diff -Naur newlib-1.19.0/libgloss/arm/Makefile.in newlib-1.19.0-arm/libgloss/arm/Makefile.in
+--- newlib-1.19.0/libgloss/arm/Makefile.in	2007-01-03 16:55:25 +0000
++++ newlib-1.19.0-arm/libgloss/arm/Makefile.in	2011-11-19 19:38:27 +0000
+@@ -53,28 +53,47 @@
+ @BUILD_CRT0_FALSE@CRT0		= 
+ @BUILD_CRT0_FALSE@CRT0_INSTALL	= 
+ 
+-LINUX_CRT0    = linux-crt0.o
+-LINUX_BSP     = libgloss-linux.a
+-LINUX_OBJS    = linux-syscalls0.o linux-syscalls1.o
+-LINUX_SCRIPTS = linux.specs
+-LINUX_INSTALL = install-linux
+-
+-REDBOOT_CRT0	= redboot-crt0.o 
+-REDBOOT_OBJS	= redboot-syscalls.o
+-REDBOOT_SCRIPTS	= redboot.ld redboot.specs
+-REDBOOT_INSTALL	= install-redboot
+-
+-RDPMON_CRT0	= rdpmon-crt0.o
+-RDPMON_BSP	= librdpmon.a
+-RDPMON_OBJS	= syscalls.o libcfunc.o trap.o _exit.o _kill.o
+-RDPMON_SCRIPTS	= rdpmon.specs
+-RDPMON_INSTALL	= install-rdpmon
+-
+-RDIMON_CRT0	= rdimon-crt0.o
+-RDIMON_BSP	= librdimon.a
+-RDIMON_OBJS	= $(patsubst %,rdimon-%,$(RDPMON_OBJS))
+-RDIMON_SCRIPTS	= rdimon.specs
+-RDIMON_INSTALL	= install-rdimon
++@BUILD_CRT0_TRUE@LINUX_CRT0    = linux-crt0.o
++@BUILD_CRT0_TRUE@LINUX_BSP     = libgloss-linux.a
++@BUILD_CRT0_TRUE@LINUX_OBJS    = linux-syscalls0.o linux-syscalls1.o
++@BUILD_CRT0_TRUE@LINUX_SCRIPTS = linux.specs
++@BUILD_CRT0_TRUE@LINUX_INSTALL = install-linux
++@BUILD_CRT0_FALSE@LINUX_CRT0    = 
++@BUILD_CRT0_FALSE@LINUX_BSP     = 
++@BUILD_CRT0_FALSE@LINUX_OBJS    = 
++@BUILD_CRT0_FALSE@LINUX_SCRIPTS = 
++@BUILD_CRT0_FALSE@LINUX_INSTALL = 
++
++@BUILD_CRT0_TRUE@REDBOOT_CRT0	= redboot-crt0.o 
++@BUILD_CRT0_TRUE@REDBOOT_OBJS	= redboot-syscalls.o
++@BUILD_CRT0_TRUE@REDBOOT_SCRIPTS	= redboot.ld redboot.specs
++@BUILD_CRT0_TRUE@REDBOOT_INSTALL	= install-redboot
++@BUILD_CRT0_FALSE@REDBOOT_CRT0	= 
++@BUILD_CRT0_FALSE@REDBOOT_OBJS	= 
++@BUILD_CRT0_FALSE@REDBOOT_SCRIPTS	= 
++@BUILD_CRT0_FALSE@REDBOOT_INSTALL	= 
++
++@BUILD_CRT0_TRUE@RDPMON_CRT0	= rdpmon-crt0.o
++@BUILD_CRT0_TRUE@RDPMON_BSP	= librdpmon.a
++@BUILD_CRT0_TRUE@RDPMON_OBJS	= syscalls.o libcfunc.o trap.o _exit.o _kill.o
++@BUILD_CRT0_TRUE@RDPMON_SCRIPTS	= rdpmon.specs
++@BUILD_CRT0_TRUE@RDPMON_INSTALL	= install-rdpmon
++@BUILD_CRT0_FALSE@RDPMON_CRT0	= 
++@BUILD_CRT0_FALSE@RDPMON_BSP	= 
++@BUILD_CRT0_FALSE@RDPMON_OBJS	= 
++@BUILD_CRT0_FALSE@RDPMON_SCRIPTS	= 
++@BUILD_CRT0_FALSE@RDPMON_INSTALL	= 
++
++@BUILD_CRT0_TRUE@RDIMON_CRT0	= rdimon-crt0.o
++@BUILD_CRT0_TRUE@RDIMON_BSP	= librdimon.a
++@BUILD_CRT0_TRUE@RDIMON_OBJS	= $(patsubst %,rdimon-%,$(RDPMON_OBJS))
++@BUILD_CRT0_TRUE@RDIMON_SCRIPTS	= rdimon.specs
++@BUILD_CRT0_TRUE@RDIMON_INSTALL	= install-rdimon
++@BUILD_CRT0_FALSE@RDIMON_CRT0	= 
++@BUILD_CRT0_FALSE@RDIMON_BSP	= 
++@BUILD_CRT0_FALSE@RDIMON_OBJS	= 
++@BUILD_CRT0_FALSE@RDIMON_SCRIPTS	= 
++@BUILD_CRT0_FALSE@RDIMON_INSTALL	= 
+ 
+ CFLAGS		= -g
+ 
+diff -Naur newlib-1.19.0/libgloss/arm/configure newlib-1.19.0-arm/libgloss/arm/configure
+--- newlib-1.19.0/libgloss/arm/configure	2008-04-04 21:51:59 +0000
++++ newlib-1.19.0-arm/libgloss/arm/configure	2011-11-19 19:38:27 +0000
+@@ -1680,7 +1680,7 @@
+   newlib_may_supply_syscalls=yes
+ fi
+ 
+-if test "x$newlib_may_supply_syscalls" = "xyes"; then
++if test "x$newlib_may_supply_syscalls" = "xyes" -o "x$with_multisubdir" = "xthumb/v6m"; then
+   BUILD_CRT0_TRUE='#'
+   BUILD_CRT0_FALSE=
+ else
+diff -Naur newlib-1.19.0/libgloss/arm/configure.in newlib-1.19.0-arm/libgloss/arm/configure.in
+--- newlib-1.19.0/libgloss/arm/configure.in	2006-05-10 20:51:40 +0000
++++ newlib-1.19.0-arm/libgloss/arm/configure.in	2011-11-19 19:38:27 +0000
+@@ -11,7 +11,7 @@
+   *)   AC_MSG_ERROR(bad value ${enableval} for newlib-supplied-syscalls option) ;;
+  esac], [newlib_may_supply_syscalls=yes])dnl
+ 
+-if test "x$newlib_may_supply_syscalls" = "xyes"; then
++if test "x$newlib_may_supply_syscalls" = "xyes" -o "x$with_multisubdir" = "xthumb/v6m"; then
+   BUILD_CRT0_TRUE='#'
+   BUILD_CRT0_FALSE=
+ else
