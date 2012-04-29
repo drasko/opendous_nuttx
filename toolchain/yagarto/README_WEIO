@@ -1,0 +1,12 @@
+Linux install :
+
+apt-get install <packet>
+
+NCURSES :
+libncurses5-dev - developer's libraries and docs for ncurses
+libncurses5 - shared libraries for terminal handling
+
+ZLIB :
+zlib1g-dev - compression library - development
+zlib1g - compression library - runtime
+
