@@ -67,39 +67,45 @@ void delay (void);
  **********************************************************************/
 void EINT3_IRQHandler(void)
 {
-	      int j;
-	      if(GPIO_GetIntStatus(0, 25, 1))
-		  {
-	    	  GPIO_ClearInt(0,(1<<25));
-			  for (j= 0; j<8; j++)
-			  {
-#ifdef MCB_LPC_1768
-				  /* Use MCB1700 board:
-				   * blink LED P1.29 when EINT3 occur
-				   */
-				    FIO_ByteSetValue(1, 3, INT3_LED);
-					delay();
-					FIO_ByteClearValue(1, 3, INT3_LED);
-				   delay();
-#elif defined(IAR_LPC_1768)
-				/* Use IAR LPC1768 KS board:
-				 * blink LED2 P0.4 when EINT3 occur
-				 */
-				    FIO_ByteSetValue(0, 0, INT3_LED);
-					delay();
-					FIO_ByteClearValue(0, 0, INT3_LED);
-				   delay();
-#elif defined(MICROPENDOUS_X)
-				/* Use MICROPENDOUS_X board:
-				 * blink LED1 P1.18 when EINT3 occur
-				 */
-				    FIO_ByteSetValue(1, 2, INT3_LED);
-					delay();
-					FIO_ByteClearValue(1, 2, INT3_LED);
-				   delay();
+   int j;
+#ifdef MICROPENDOUS_X
+   if (GPIO_GetIntStatus(2,10,1))
+   {
+      GPIO_ClearInt(2,(1<<10));
+#else
+   if(GPIO_GetIntStatus(0, 25, 1))
+	{
+      GPIO_ClearInt(0,(1<<25));
 #endif
-			  }
-          }
+		for (j= 0; j<8; j++)
+		{
+#ifdef MCB_LPC_1768
+		   /* Use MCB1700 board:
+			 * blink LED P1.29 when EINT3 occur
+			 */
+			FIO_ByteSetValue(1, 3, INT3_LED);
+			delay();
+			FIO_ByteClearValue(1, 3, INT3_LED);
+			delay();
+#elif defined(IAR_LPC_1768)
+			/* Use IAR LPC1768 KS board:
+			 * blink LED2 P0.4 when EINT3 occur
+			 */
+         FIO_ByteSetValue(0, 0, INT3_LED);
+			delay();
+			FIO_ByteClearValue(0, 0, INT3_LED);
+			delay();
+#elif defined(MICROPENDOUS_X)
+			/* Use MICROPENDOUS_X board:
+			 * blink LED1 P1.18 when EINT3 occur
+			 */
+			FIO_ByteClearValue(1, 2, INT3_LED);
+			delay();
+			FIO_ByteSetValue(1, 2, INT3_LED);
+			delay();
+#endif
+		}
+   }
 }
 
 /*-------------------------PRIVATE FUNCTIONS------------------------------*/
@@ -145,14 +151,14 @@ int c_entry (void)
    //FIO_ByteSetDir(1, 2, POLL_LED, 1);
 	FIO_ByteSetDir(1, 2, INT3_LED, 1);
 	// Turn off all LEDs
-   //FIO_ByteClearValue(1, 2, POLL_LED);
-   FIO_ByteClearValue(1, 2, INT3_LED);
+   //FIO_ByteSetValue(1, 2, POLL_LED);
+   FIO_ByteSetValue(1, 2, INT3_LED);
 #endif
 
 	// Enable GPIO interrupt
 	/* Use MCB1700: test GPIO interrupt on P0.25->connects with ADC potentiometer
 	 * Use IAR KS : test GPIO interrupt on P0.23->connects with BUT1 button
-    * Use MICROPENDOUS_X : test GPIO interrupt on P1.10->connects with BUT1 button
+    * Use MICROPENDOUS_X : test GPIO interrupt on P2.10->connects with BUT1 button
 	 */
 #ifdef MICROPENDOUS_X
    GPIO_IntCmd(2,(1<<10),1);
