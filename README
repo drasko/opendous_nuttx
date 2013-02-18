@@ -1,5 +1,10 @@
 **************************************************
 *                                                *
-*   WEIO - Internet of Things Computer Project   *
+*   NuttX port to MicropendousX LPC1768          *
 *                                                *
 **************************************************
+
+NuttX : http://www.nuttx.org/
+MicropendousX : https://code.google.com/p/micropendousx/
+
+
